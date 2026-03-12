@@ -180,7 +180,7 @@ function HeroSection() {
 
       <div className="relative z-10 flex flex-col items-center text-center px-6 pt-36 pb-16 max-w-[760px] mx-auto">
         <span
-          className={`inline-block text-xs font-semibold tracking-wider uppercase text-gold bg-gold-dim border border-[rgba(255,199,44,0.12)] px-4 py-1.5 rounded-full mb-7 transition-all duration-700 ${
+          className={`inline-block text-[11px] font-bold tracking-[0.2em] uppercase text-gold bg-gold-dim border border-[rgba(255,199,44,0.15)] px-5 py-2 rounded-full mb-8 transition-all duration-700 ${
             loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
@@ -188,7 +188,7 @@ function HeroSection() {
         </span>
 
         <h1
-          className={`font-[family-name:var(--font-archivo)] text-[clamp(2rem,5.5vw,3.5rem)] font-bold leading-[1.08] tracking-[-2px] mb-6 transition-all duration-700 delay-100 ${
+          className={`font-[family-name:var(--font-archivo)] text-[clamp(2.5rem,6.5vw,4.25rem)] font-black leading-[1.04] tracking-[-2.5px] mb-7 transition-all duration-700 delay-100 ${
             loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
@@ -198,7 +198,7 @@ function HeroSection() {
         </h1>
 
         <p
-          className={`text-lg text-text-secondary leading-relaxed max-w-[580px] mb-9 transition-all duration-700 delay-200 ${
+          className={`text-[17px] text-text-secondary leading-[1.7] max-w-[560px] mb-10 transition-all duration-700 delay-200 ${
             loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >

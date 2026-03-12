@@ -287,6 +287,23 @@ function LoginScreen({ onConnect }: { onConnect: (account: AccountInfo) => void 
 function DashboardPanel({ account, onDisconnect }: { account: AccountInfo; onDisconnect: () => void }) {
   const [activeTab, setActiveTab] = useState("overview");
   const [spinning, setSpinning] = useState(false);
+  const [bridgeStatus, setBridgeStatus] = useState<"checking" | "online" | "offline">("checking");
+
+  useEffect(() => {
+    let mounted = true;
+    const checkBridge = async () => {
+      try {
+        const res = await fetch("/api/auth/mt5-status");
+        const data = await res.json();
+        if (mounted) setBridgeStatus(data.status === "online" ? "online" : "offline");
+      } catch {
+        if (mounted) setBridgeStatus("offline");
+      }
+    };
+    checkBridge();
+    const interval = setInterval(checkBridge, 30000);
+    return () => { mounted = false; clearInterval(interval); };
+  }, []);
 
   const tabs = [
     { id: "overview", label: "Overview" },
@@ -332,6 +349,32 @@ function DashboardPanel({ account, onDisconnect }: { account: AccountInfo; onDis
           </nav>
 
           <div className="ml-auto flex items-center gap-2.5">
+            {/* MT5 Bridge Status */}
+            <span
+              className={`flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border ${
+                bridgeStatus === "online"
+                  ? "text-green bg-green-bg border-[rgba(34,197,94,0.12)]"
+                  : bridgeStatus === "offline"
+                  ? "text-red bg-red-bg border-[rgba(239,68,68,0.15)]"
+                  : "text-text-muted bg-glass border-glass-border"
+              }`}
+            >
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  bridgeStatus === "online"
+                    ? "bg-green animate-pulse-dot"
+                    : bridgeStatus === "offline"
+                    ? "bg-red"
+                    : "bg-text-muted animate-pulse"
+                }`}
+              />
+              {bridgeStatus === "online"
+                ? "MT5 Bridge Active"
+                : bridgeStatus === "offline"
+                ? "Bridge Offline"
+                : "Checking..."}
+            </span>
+
             <span className="flex items-center gap-1.5 text-xs text-text-secondary px-3 py-1.5 bg-green-bg border border-[rgba(34,197,94,0.12)] rounded-lg">
               <span className="w-1.5 h-1.5 rounded-full bg-green animate-pulse-dot" />
               {account.login} @ {account.server}

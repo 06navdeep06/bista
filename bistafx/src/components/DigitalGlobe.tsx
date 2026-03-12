@@ -2,7 +2,7 @@
 
 import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, PresentationControls } from "@react-three/drei";
+import { Float } from "@react-three/drei";
 import * as THREE from "three";
 
 function GlobeWireframe() {
@@ -10,8 +10,8 @@ function GlobeWireframe() {
 
   useFrame((_, delta) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += delta * 0.15;
-      meshRef.current.rotation.x += delta * 0.03;
+      meshRef.current.rotation.y += delta * 0.08;
+      meshRef.current.rotation.x += delta * 0.015;
     }
   });
 
@@ -21,7 +21,7 @@ function GlobeWireframe() {
         color: new THREE.Color("#FFD700"),
         wireframe: true,
         transparent: true,
-        opacity: 0.12,
+        opacity: 0.06,
       }),
     []
   );
@@ -32,7 +32,7 @@ function GlobeWireframe() {
         color: new THREE.Color("#FFD700"),
         wireframe: true,
         transparent: true,
-        opacity: 0.35,
+        opacity: 0.15,
       }),
     []
   );
@@ -59,7 +59,7 @@ function DataParticles() {
   const pointsRef = useRef<THREE.Points>(null);
 
   const { positions, speeds } = useMemo(() => {
-    const count = 600;
+    const count = 250;
     const pos = new Float32Array(count * 3);
     const spd = new Float32Array(count);
     for (let i = 0; i < count; i++) {
@@ -97,9 +97,9 @@ function DataParticles() {
       </bufferGeometry>
       <pointsMaterial
         color="#FFD700"
-        size={0.02}
+        size={0.015}
         transparent
-        opacity={0.6}
+        opacity={0.3}
         sizeAttenuation
         depthWrite={false}
       />
@@ -109,27 +109,18 @@ function DataParticles() {
 
 function Scene() {
   return (
-    <PresentationControls
-      global
-      rotation={[0.1, 0.2, 0]}
-      polar={[-0.2, 0.2]}
-      azimuth={[-0.4, 0.4]}
-      speed={1.5}
-      zoom={1}
-    >
-      <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.8}>
-        <GlobeWireframe />
-        <DataParticles />
-      </Float>
-    </PresentationControls>
+    <Float speed={1} rotationIntensity={0.15} floatIntensity={0.4}>
+      <GlobeWireframe />
+      <DataParticles />
+    </Float>
   );
 }
 
 export default function DigitalGlobe() {
   return (
     <div
-      className="absolute inset-0 z-0"
-      style={{ pointerEvents: "auto" }}
+      className="absolute inset-0 z-0 opacity-60"
+      style={{ pointerEvents: "none" }}
     >
       <Canvas
         camera={{ position: [0, 0, 6], fov: 50 }}
