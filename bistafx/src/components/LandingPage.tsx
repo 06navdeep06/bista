@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-const DigitalGlobe = dynamic(() => import("@/components/DigitalGlobe"), {
+const HeroLogo3D = dynamic(() => import("@/components/HeroLogo3D"), {
   ssr: false,
 });
 
@@ -171,8 +171,8 @@ function HeroSection() {
       id="home"
       className="relative z-[1] min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* 3D Globe background */}
-      <DigitalGlobe />
+      {/* 3D Logo background */}
+      <HeroLogo3D />
 
       {/* Ambient glow blobs */}
       <div className="fixed w-[600px] h-[600px] rounded-full blur-[120px] pointer-events-none z-0 bg-[radial-gradient(circle,rgba(255,199,44,0.07)_0%,transparent_70%)] -top-[200px] -left-[100px]" />
@@ -234,20 +234,6 @@ function HeroSection() {
           </a>
         </div>
 
-        {/* Scroll hint */}
-        <div
-          className={`mt-16 flex flex-col items-center gap-2.5 text-text-muted text-xs tracking-wide transition-all duration-700 delay-500 ${
-            loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
-          <div className="w-6 h-[38px] border-2 border-text-muted rounded-xl relative">
-            <div
-              className="w-[3px] h-2 bg-gold rounded absolute left-1/2 -translate-x-1/2"
-              style={{ animation: "mouseScroll 2s ease-in-out infinite", top: "6px" }}
-            />
-          </div>
-          <span>Scroll to explore</span>
-        </div>
       </div>
     </section>
   );
