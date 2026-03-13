@@ -8,6 +8,13 @@ const HeroLogo3D = dynamic(() => import("@/components/HeroLogo3D"), {
   ssr: false,
 });
 
+const FeatureIcon3D = dynamic(() => import("@/components/FeatureIcon3D"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-14 h-14 min-w-[56px] rounded-xl bg-gold-dim border border-[rgba(255,199,44,0.12)] animate-pulse" />
+  ),
+});
+
 /* ── Navbar ───────────────────────────────────────── */
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -175,35 +182,35 @@ function HeroSection() {
       <HeroLogo3D />
 
       {/* Ambient glow blobs */}
-      <div className="fixed w-[600px] h-[600px] rounded-full blur-[120px] pointer-events-none z-0 bg-[radial-gradient(circle,rgba(255,199,44,0.07)_0%,transparent_70%)] -top-[200px] -left-[100px]" />
-      <div className="fixed w-[500px] h-[500px] rounded-full blur-[120px] pointer-events-none z-0 bg-[radial-gradient(circle,rgba(255,199,44,0.04)_0%,transparent_70%)] top-1/2 -right-[150px]" />
+      <div className="absolute w-[600px] h-[600px] rounded-full blur-[120px] pointer-events-none z-0 bg-[radial-gradient(circle,rgba(255,199,44,0.07)_0%,transparent_70%)] -top-[200px] -left-[100px]" />
+      <div className="absolute w-[500px] h-[500px] rounded-full blur-[120px] pointer-events-none z-0 bg-[radial-gradient(circle,rgba(255,199,44,0.04)_0%,transparent_70%)] top-1/2 -right-[150px]" />
 
       <div className="relative z-10 flex flex-col items-center text-center px-6 pt-36 pb-16 max-w-[760px] mx-auto">
-        <span
-          className={`inline-block text-[11px] font-bold tracking-[0.2em] uppercase text-gold bg-gold-dim border border-[rgba(255,199,44,0.15)] px-5 py-2 rounded-full mb-8 transition-all duration-700 ${
+        <div
+          className={`transition-all duration-700 mb-6 ${
             loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          Powered by OANDA
-        </span>
+          <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-gold bg-gold-dim border border-[rgba(255,199,44,0.12)] px-4 py-1.5 rounded-full">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+            Powered by OANDA
+          </span>
+        </div>
 
         <h1
-          className={`font-[family-name:var(--font-archivo)] text-[clamp(2.5rem,6.5vw,4.25rem)] font-black leading-[1.04] tracking-[-2.5px] mb-7 transition-all duration-700 delay-100 ${
+          className={`font-[family-name:var(--font-archivo)] text-[clamp(3rem,8vw,5.5rem)] font-black leading-[1] tracking-[-3px] mb-6 transition-all duration-700 delay-100 ${
             loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          Professional Forex Trading
-          <br />
-          with <span className="gold-text">Institutional Precision</span>
+          <span className="gold-text">Bista</span>FX
         </h1>
 
         <p
-          className={`text-[17px] text-text-secondary leading-[1.7] max-w-[560px] mb-10 transition-all duration-700 delay-200 ${
+          className={`text-[clamp(1rem,2vw,1.125rem)] text-text-secondary max-w-[520px] leading-relaxed mb-8 transition-all duration-700 delay-200 ${
             loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          BistaFX combines disciplined trading strategies with the reliability
-          of OANDA&apos;s global trading infrastructure.
+          Institutional-grade forex trading backed by OANDA's global infrastructure. Connect your MT5 account and track every trade with precision.
         </p>
 
         <div
@@ -244,21 +251,25 @@ function FeaturesSection() {
   const features = [
     {
       num: "01",
+      icon: "globe",
       title: "OANDA Partnership",
       desc: "Exclusive partnership with one of the world's most trusted forex brokers. Access institutional-grade execution, deep liquidity pools, and transparent pricing across 70+ currency pairs.",
     },
     {
       num: "02",
+      icon: "bolt",
       title: "Sub-Second Execution",
       desc: "Orders execute in under 50 milliseconds with minimal slippage. Our direct market access infrastructure ensures your trades hit the market at the price you see.",
     },
     {
       num: "03",
+      icon: "shield",
       title: "Security & Regulation",
       desc: "OANDA is regulated across major financial jurisdictions including the FCA, ASIC, and IIROC. Client funds are held in segregated accounts with tier-1 banks.",
     },
     {
       num: "04",
+      icon: "chart-bar",
       title: "MT5 Trade Journal",
       desc: "Connect your MetaTrader 5 account with read-only investor credentials and access your complete trade journal — equity curves, trade history, and performance analytics.",
     },
@@ -286,9 +297,12 @@ function FeaturesSection() {
           {features.map((f) => (
             <RevealSection key={f.num}>
               <div className="glass-card p-9 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.25),0_0_40px_rgba(255,199,44,0.03)]">
-                <span className="block text-[13px] font-bold text-gold tracking-wider mb-3">
-                  {f.num}
-                </span>
+                <div className="flex items-center gap-4 mb-4">
+                  <FeatureIcon3D icon={f.icon} size="md" />
+                  <span className="text-[13px] font-bold text-gold tracking-wider">
+                    {f.num}
+                  </span>
+                </div>
                 <h3 className="text-xl font-semibold tracking-tight mb-3">
                   {f.title}
                 </h3>
@@ -331,24 +345,28 @@ function ServicesSection() {
   const services = [
     {
       num: "01",
+      icon: "dollar",
       title: "Forex Trading",
       desc: "Access global currency markets with competitive spreads and fast execution across major, minor, and exotic pairs.",
       tags: ["70+ Pairs", "Tight Spreads", "Fast Execution"],
     },
     {
       num: "02",
+      icon: "briefcase",
       title: "Managed Accounts",
       desc: "Professional traders manage client portfolios using proven risk management strategies and consistent execution.",
       tags: ["PAMM Accounts", "Risk Managed", "Transparent"],
     },
     {
       num: "03",
+      icon: "signal",
       title: "Trading Signals",
       desc: "Real-time market alerts and actionable trading strategies grounded in technical and fundamental analysis.",
       tags: ["Real-Time", "Technical", "Fundamental"],
     },
     {
       num: "04",
+      icon: "chart-bar",
       title: "Market Analysis",
       desc: "Daily forex insights and market commentary from experienced analysts covering global macro trends.",
       tags: ["Daily Reports", "Macro Trends", "Expert Analysts"],
@@ -375,9 +393,12 @@ function ServicesSection() {
             <RevealSection key={s.num}>
               <div className="glass-card p-9 grid grid-cols-1 md:grid-cols-[1.3fr_0.7fr] gap-8 items-center hover:-translate-y-1 hover:scale-[1.005] hover:shadow-[0_24px_80px_rgba(0,0,0,0.3)]">
                 <div>
-                  <span className="block text-xs font-bold text-gold tracking-wider mb-2.5">
-                    {s.num}
-                  </span>
+                  <div className="flex items-center gap-4 mb-3">
+                    <FeatureIcon3D icon={s.icon} size="lg" />
+                    <span className="text-xs font-bold text-gold tracking-wider">
+                      {s.num}
+                    </span>
+                  </div>
                   <h3 className="text-xl font-semibold tracking-tight mb-2.5">
                     {s.title}
                   </h3>
@@ -408,14 +429,17 @@ function ServicesSection() {
 function HowSection() {
   const steps = [
     {
+      icon: "user",
       title: "Create Your MT5 Account",
       desc: "Open a MetaTrader 5 account through OANDA. Complete verification and fund your account to begin trading.",
     },
     {
+      icon: "link",
       title: "Connect to BistaFX",
       desc: "Use your investor password (read-only) to connect your account to the BistaFX dashboard. Your credentials are encrypted and never stored.",
     },
     {
+      icon: "trending",
       title: "Trade & Track",
       desc: "Execute trades on MT5 and monitor your full performance — equity curve, trade journal, win rate, and profit analytics — all in one dashboard.",
     },
@@ -442,9 +466,12 @@ function HowSection() {
             <RevealSection key={i} className="relative mb-8 last:mb-0">
               <div className="absolute -left-[34px] top-7 w-3 h-3 rounded-full bg-bg border-2 border-gold z-[2] shadow-[0_0_12px_rgba(255,199,44,0.2)]" />
               <div className="glass-card p-7">
-                <span className="block text-[11px] font-semibold text-gold uppercase tracking-wider mb-2.5">
-                  Step {i + 1}
-                </span>
+                <div className="flex items-center gap-3 mb-3">
+                  <FeatureIcon3D icon={step.icon} size="sm" />
+                  <span className="text-[11px] font-semibold text-gold uppercase tracking-wider">
+                    Step {i + 1}
+                  </span>
+                </div>
                 <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
                 <p className="text-sm text-text-secondary leading-relaxed">
                   {step.desc}
@@ -489,64 +516,24 @@ function AboutSection() {
                 {
                   title: "Institutional Grade",
                   desc: "Professional infrastructure and execution standards.",
-                  icon: (
-                    <path
-                      d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-                      stroke="#FFC72C"
-                      strokeWidth="1.5"
-                    />
-                  ),
+                  icon: "shield",
                 },
                 {
                   title: "Transparency",
                   desc: "Clear pricing, honest reporting, no hidden fees.",
-                  icon: (
-                    <>
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="#FFC72C"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M8 12l3 3 5-5"
-                        stroke="#FFC72C"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </>
-                  ),
+                  icon: "check",
                 },
                 {
                   title: "Risk Discipline",
                   desc: "Proven strategies with strict risk management.",
-                  icon: (
-                    <path
-                      d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"
-                      stroke="#FFC72C"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  ),
+                  icon: "bolt",
                 },
               ].map((v) => (
                 <div
                   key={v.title}
                   className="glass-card flex gap-4 items-start p-5 hover:-translate-y-0.5"
                 >
-                  <div className="w-10 h-10 min-w-[40px] flex items-center justify-center bg-gold-dim border border-[rgba(255,199,44,0.12)] rounded-[10px]">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      {v.icon}
-                    </svg>
-                  </div>
+                  <FeatureIcon3D icon={v.icon} size="sm" />
                   <div>
                     <strong className="block text-sm mb-0.5">{v.title}</strong>
                     <span className="text-[13px] text-text-secondary">
